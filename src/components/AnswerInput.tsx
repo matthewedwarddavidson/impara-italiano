@@ -1,0 +1,88 @@
+import { useRef, type KeyboardEvent, type RefObject } from 'react'
+import type { Verdict } from '../lib/check'
+
+const SPECIAL_LETTERS = ['à', 'è', 'é', 'ì', 'ò', 'ù', 'È']
+
+interface AnswerInputProps {
+  value: string
+  onChange: (value: string) => void
+  onSubmit: () => void
+  verdict?: Verdict
+  placeholder?: string
+  autoFocus?: boolean
+  disabled?: boolean
+  label?: string
+  /** Lets the parent focus this field, e.g. to move on to a second answer. */
+  inputRef?: RefObject<HTMLInputElement | null>
+}
+
+/** A text field for Italian answers with buttons for accented letters. */
+export function AnswerInput({
+  value,
+  onChange,
+  onSubmit,
+  verdict,
+  placeholder,
+  autoFocus = true,
+  disabled = false,
+  label = 'Your answer',
+  inputRef: externalRef,
+}: AnswerInputProps) {
+  const ownRef = useRef<HTMLInputElement>(null)
+  const inputRef = externalRef ?? ownRef
+
+  function insert(letter: string) {
+    const input = inputRef.current
+    if (!input) return
+    const start = input.selectionStart ?? value.length
+    const end = input.selectionEnd ?? value.length
+    onChange(value.slice(0, start) + letter + value.slice(end))
+    requestAnimationFrame(() => {
+      input.focus()
+      input.setSelectionRange(start + 1, start + 1)
+    })
+  }
+
+  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      onSubmit()
+    }
+  }
+
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        className={`input large ${verdict ?? ''}`}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        autoFocus={autoFocus}
+        disabled={disabled}
+        aria-label={label}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        lang="it"
+      />
+      {!disabled && (
+        <div className="accents" aria-label="Special letters">
+          {SPECIAL_LETTERS.map((letter) => (
+            <button
+              key={letter}
+              type="button"
+              tabIndex={-1}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => insert(letter)}
+            >
+              {letter}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
