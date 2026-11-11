@@ -227,7 +227,7 @@ function WritingEditor({ task }: { task: WritingTask }) {
             className="textarea"
             value={text}
             onChange={(event) => setText(event.target.value)}
-            placeholder="Schreib hier deinen Text…"
+            placeholder="Scrivi qui il tuo testo…"
             lang="it"
             spellCheck={false}
             aria-label="Your text"

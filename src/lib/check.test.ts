@@ -131,4 +131,19 @@ describe('diffWords', () => {
       { text: 'oggi', status: 'extra' },
     ])
   })
+
+  it('marks an accent or capital slip as nearly right, and counts it half', () => {
+    const diff = diffWords('perche e tardi', 'Perché è tardi')
+    expect(diff.map((token) => token.status)).toEqual(['almost', 'almost', 'ok'])
+    expect(diffScore(diff)).toBeCloseTo(2 / 3)
+  })
+
+  it('marks accent slips wrong when strict accents are on', () => {
+    setStrictAccents(true)
+    try {
+      expect(diffWords('e tardi', 'è tardi')[0].status).toBe('wrong')
+    } finally {
+      setStrictAccents(false)
+    }
+  })
 })

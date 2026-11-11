@@ -329,7 +329,7 @@ function DictationItem({ sentence, onNext }: { sentence: DictationSentence; onNe
         onChange={setValue}
         onSubmit={check}
         disabled={!!diff}
-        placeholder="Schreib den Satz…"
+        placeholder="Scrivi la frase…"
       />
       {!diff ? (
         <div>
@@ -358,7 +358,8 @@ function DictationItem({ sentence, onNext }: { sentence: DictationSentence; onNe
             </div>
           </div>
           <div className="faint small">
-            <span className="token-key ok">correct</span> <span className="token-key wrong">wrong</span>{' '}
+            <span className="token-key ok">correct</span> <span className="token-key almost">accent or capital</span>{' '}
+            <span className="token-key wrong">wrong</span>{' '}
             <span className="token-key missing">missed</span> <span className="token-key extra">extra</span>
           </div>
           <div>

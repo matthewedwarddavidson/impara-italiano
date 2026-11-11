@@ -161,12 +161,13 @@ export function checkNoun(given: string, article: Article, noun: string, gender:
   return { verdict: 'wrong', expected, note: articleFormNote(article) }
 }
 
-export type TokenStatus = 'ok' | 'wrong' | 'missing' | 'extra'
+/** "almost": the right word with only an accent or capital letter wrong. */
+export type TokenStatus = 'ok' | 'almost' | 'wrong' | 'missing' | 'extra'
 
 export interface TokenDiff {
   text: string
   status: TokenStatus
-  /** For wrong tokens: what was typed. */
+  /** For wrong and almost tokens: what was typed. */
   typed?: string
 }
 
@@ -205,7 +206,7 @@ export function diffWords(typed: string, expected: string, keepPunctuation = fal
       j++
     } else if (lengths[i + 1][j] === lengths[i][j + 1] && lengths[i + 1][j + 1] === lengths[i][j]) {
       // Neither skip helps: treat as a substitution.
-      result.push({ text: expectedTokens[j], status: 'wrong', typed: typedTokens[i] })
+      result.push({ text: expectedTokens[j], status: substitutionStatus(typedTokens[i], expectedTokens[j]), typed: typedTokens[i] })
       i++
       j++
     } else if (lengths[i + 1][j] >= lengths[i][j + 1]) {
@@ -221,9 +222,19 @@ export function diffWords(typed: string, expected: string, keepPunctuation = fal
   return result
 }
 
+/** A word with only an accent or capital letter wrong is nearly right, unless strict accents are on. */
+function substitutionStatus(typed: string, expected: string): TokenStatus {
+  const sameLetters = withoutAccents(typed).toLowerCase() === withoutAccents(expected).toLowerCase()
+  const onlyCase = typed.toLowerCase() === expected.toLowerCase()
+  if (onlyCase || (sameLetters && !marking.strictAccents)) return 'almost'
+  return 'wrong'
+}
+
+/** Share of words right; a nearly right word counts half. */
 export function diffScore(diff: TokenDiff[]): number {
   const expectedCount = diff.filter((token) => token.status !== 'extra').length
-  const correct = diff.filter((token) => token.status === 'ok').length
+  const correct =
+    diff.filter((token) => token.status === 'ok').length + diff.filter((token) => token.status === 'almost').length * 0.5
   const extra = diff.filter((token) => token.status === 'extra').length
   if (expectedCount === 0) return 0
   return Math.max(0, (correct - extra * 0.5) / expectedCount)
