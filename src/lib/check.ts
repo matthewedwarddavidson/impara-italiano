@@ -24,6 +24,18 @@ export function normalise(text: string): string {
     .trim()
 }
 
+/** Marking choices from Settings, set by the app whenever they change. */
+const marking = { strictAccents: false }
+
+/** With strict accents on, a missing or wrong accent is wrong instead of nearly right. */
+export function setStrictAccents(strict: boolean) {
+  marking.strictAccents = strict
+}
+
+function accentMistake(expected: string, note: string): CheckResult {
+  return { verdict: marking.strictAccents ? 'wrong' : 'almost', expected, note }
+}
+
 function withoutCommas(text: string): string {
   return text.replace(/,/g, '').replace(/\s+/g, ' ')
 }
@@ -75,10 +87,10 @@ function compareOne(given: string, expected: string): CheckResult {
     return { verdict: 'almost', expected, note: 'Check capital letters.' }
   }
   if (apostrophesAsAccents(typed) === target) {
-    return { verdict: 'almost', expected, note: "Use the accented letter (è, à, ò…) rather than an apostrophe." }
+    return accentMistake(expected, 'Use the accented letter (è, à, ò…) rather than an apostrophe.')
   }
   if (withoutAccents(typed).toLowerCase() === withoutAccents(target).toLowerCase()) {
-    return { verdict: 'almost', expected, note: 'Check the accents.' }
+    return accentMistake(expected, 'Check the accents.')
   }
   if (isTypo(typed.toLowerCase(), target.toLowerCase())) {
     return { verdict: 'almost', expected, note: 'Small spelling mistake.' }
@@ -126,7 +138,7 @@ export function checkAnswer(given: string, accepted: string[]): CheckResult {
 /**
  * Checks a noun typed with its article. A missing article or the wrong gender is wrong,
  * because gender is part of knowing the word. The right gender in the wrong form
- * (il amico for l'amico) is nearly right.
+ * (il amico for l'amico) is wrong too, with a note on the rule.
  */
 export function checkNoun(given: string, article: Article, noun: string, gender: Gender): CheckResult {
   const expected = withArticle(article, noun)
@@ -146,7 +158,7 @@ export function checkNoun(given: string, article: Article, noun: string, gender:
   if (typedGender && typedGender !== gender) {
     return { verdict: 'wrong', expected, note: `Wrong gender: it's ${expected}.` }
   }
-  return { verdict: 'almost', expected, note: articleFormNote(article) }
+  return { verdict: 'wrong', expected, note: articleFormNote(article) }
 }
 
 export type TokenStatus = 'ok' | 'wrong' | 'missing' | 'extra'

@@ -46,12 +46,12 @@ describe('checkNounParts', () => {
       plural: 'correct',
     })
     expect(checkNounParts(noun, 'la amico', 'amici').article).toBe('wrong')
-    expect(checkNounParts(noun, 'il amico', 'amici').article).toBe('almost')
+    expect(checkNounParts(noun, 'il amico', 'amici').article).toBe('wrong')
   })
 
-  it('lets a wrong plural or article form lower the grade without failing the word', () => {
+  it('lets a wrong plural lower the grade without failing the word', () => {
     expect(nounVerdict(checkNounParts(noun, "l'amico", 'amichi'))).toBe('almost')
-    expect(nounVerdict(checkNounParts(noun, 'il amico', 'amici'))).toBe('almost')
+    expect(nounVerdict(checkNounParts(noun, 'il amico', 'amici'))).toBe('wrong')
     expect(nounVerdict(checkNounParts(noun, 'la amico', 'amici'))).toBe('wrong')
     expect(nounVerdict(checkNounParts(noun, "l'amico", 'amici'))).toBe('correct')
   })

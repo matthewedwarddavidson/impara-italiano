@@ -96,6 +96,8 @@ export interface Settings {
   welcomeDismissed?: boolean
   /** The recall rate reviews aim for, 0.8 to 0.95. */
   desiredRetention?: number
+  /** Missing or wrong accents count as wrong, not nearly right. */
+  strictAccents?: boolean
   /** An if-then plan: when and where you study. Concrete plans make it far more likely to happen. */
   studyPlan?: string
 }

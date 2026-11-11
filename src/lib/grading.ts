@@ -1,6 +1,6 @@
 import { GRAMMAR_TOPICS } from '../content/grammar'
 import type { GrammarExercise, GrammarTopic, Word } from '../content/types'
-import { articleGender, splitArticle } from './articles'
+import { splitArticle } from './articles'
 import { studyOrder } from './cards'
 import { checkAnswer, checkNoun, type CheckResult, type Verdict } from './check'
 import { Rating, type Grade } from './srs'
@@ -27,7 +27,7 @@ export function checkWord(word: Word, typed: string): CheckResult {
 
 /** A noun answer split into its parts, so feedback can say which one was wrong. */
 export interface NounParts {
-  /** Right article; "almost" when the gender is right but the form isn't (il amico). */
+  /** Right article; "wrong" covers the wrong gender and the wrong form (il amico). */
   article: Verdict
   noun: Verdict
   plural?: Verdict
@@ -45,12 +45,9 @@ export function checkNounParts(word: Word, typed: string, typedPlural?: string):
   return parts
 }
 
-/** Right article; the right gender in the wrong form (il amico) is "almost". */
+/** Only the exact article is right: il amico is as wrong as la amico. */
 function articleVerdict(typed: string | undefined, word: Word): Verdict {
-  if (!typed || !word.article) return 'wrong'
-  if (typed === word.article) return 'correct'
-  const typedGender = articleGender(typed as NonNullable<Word['article']>)
-  return typedGender && typedGender !== word.gender ? 'wrong' : 'almost'
+  return typed && typed === word.article ? 'correct' : 'wrong'
 }
 
 /**

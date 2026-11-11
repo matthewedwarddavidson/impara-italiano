@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { setStrictAccents } from './lib/check'
 import { HashRouter, NavLink, Route, Routes, useLocation } from 'react-router'
 import { Icon, type IconName } from './components/Icon'
 import { dueCards } from './lib/cards'
@@ -83,8 +84,15 @@ function useTheme() {
   }, [theme])
 }
 
+/** Passes the marking choices from Settings to the answer checker. */
+function useMarking() {
+  const { strictAccents } = useAppState().settings
+  useEffect(() => setStrictAccents(strictAccents ?? false), [strictAccents])
+}
+
 export default function App() {
   useTheme()
+  useMarking()
   return (
     // Hash routes work on static hosting such as GitHub Pages without server rewrites.
     <HashRouter>

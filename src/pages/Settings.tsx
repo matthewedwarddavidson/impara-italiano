@@ -116,6 +116,25 @@ export function Settings() {
       </div>
 
       <div className="card stack">
+        <h3>Marking</h3>
+        <label className="row" style={{ gap: 10, alignItems: 'flex-start' }}>
+          <input
+            type="checkbox"
+            checked={settings.strictAccents ?? false}
+            onChange={(event) => updateSettings({ strictAccents: event.target.checked })}
+            style={{ marginTop: 4 }}
+          />
+          <span>
+            <strong>Strict accents</strong>
+            <span className="small muted" style={{ display: 'block' }}>
+              Mark a missing or wrong accent (perche for perché, e for è) as wrong. When off, it counts as nearly right
+              and the correct form is shown.
+            </span>
+          </span>
+        </label>
+      </div>
+
+      <div className="card stack">
         <h3>Voices</h3>
         <label className="row" style={{ gap: 10, alignItems: 'flex-start' }}>
           <input

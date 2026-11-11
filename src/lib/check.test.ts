@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { checkAnswer, checkNoun, diffScore, diffWords, editDistance, normalise } from './check'
+import { checkAnswer, checkNoun, diffScore, diffWords, editDistance, normalise, setStrictAccents } from './check'
 
 describe('normalise', () => {
   it('tidies spacing and final punctuation', () => {
@@ -27,6 +27,17 @@ describe('checkAnswer', () => {
     expect(missing.note).toMatch(/accent/)
     expect(checkAnswer('lui e qui', ['lui è qui']).verdict).toBe('almost')
     expect(checkAnswer('perchè', ['perché']).verdict).toBe('almost')
+  })
+
+  it('marks accent mistakes wrong when strict accents are on', () => {
+    setStrictAccents(true)
+    try {
+      expect(checkAnswer('perche', ['perché']).verdict).toBe('wrong')
+      expect(checkAnswer("citta'", ['città']).verdict).toBe('wrong')
+      expect(checkAnswer('perché', ['perché']).verdict).toBe('correct')
+    } finally {
+      setStrictAccents(false)
+    }
   })
 
   it('treats an apostrophe for an accent as nearly right', () => {
@@ -80,13 +91,15 @@ describe('checkNoun', () => {
     expect(checkNoun('l’amico', "l'", 'amico', 'm').verdict).toBe('correct')
   })
 
-  it('treats the right gender in the wrong form as nearly right', () => {
+  it('rejects the right gender in the wrong form, with the rule', () => {
     const elision = checkNoun('il amico', "l'", 'amico', 'm')
-    expect(elision.verdict).toBe('almost')
+    expect(elision.verdict).toBe('wrong')
     expect(elision.note).toMatch(/l'/)
-    expect(checkNoun('la amica', "l'", 'amica', 'f').verdict).toBe('almost')
-    expect(checkNoun('il studente', 'lo', 'studente', 'm').verdict).toBe('almost')
-    expect(checkNoun('la amico', "l'", 'amico', 'm').verdict).toBe('wrong')
+    expect(checkNoun('la amica', "l'", 'amica', 'f').verdict).toBe('wrong')
+    const lo = checkNoun('il studente', 'lo', 'studente', 'm')
+    expect(lo.verdict).toBe('wrong')
+    expect(lo.note).toMatch(/lo/)
+    expect(checkNoun('la amico', "l'", 'amico', 'm').note).toMatch(/gender/)
   })
 
   it('marks a missing article as wrong with a note', () => {
