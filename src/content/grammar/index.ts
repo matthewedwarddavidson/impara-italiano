@@ -9,6 +9,8 @@ import {
   presenteIrregolare,
   presenteRegolare,
 } from './a1-verbs'
+import { ciENe, comparativi, piacere, preposizioniArticolate, pronomiDiretti, pronomiIndiretti, verbiRiflessivi } from './a2-forms'
+import { futuroSemplice, imperfetto, passatoProssimo, stareGerundio } from './a2-tenses'
 
 /** Topics in teaching order within each level. */
 export const GRAMMAR_TOPICS: GrammarTopic[] = [
@@ -24,6 +26,17 @@ export const GRAMMAR_TOPICS: GrammarTopic[] = [
   preposizioniSemplici,
   possessivi,
   numeriEOre,
+  preposizioniArticolate,
+  passatoProssimo,
+  verbiRiflessivi,
+  pronomiDiretti,
+  piacere,
+  pronomiIndiretti,
+  imperfetto,
+  stareGerundio,
+  comparativi,
+  futuroSemplice,
+  ciENe,
 ]
 
 export function topicById(id: string): GrammarTopic | undefined {
