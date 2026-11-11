@@ -43,6 +43,10 @@ export function GrammarList() {
           <h3 style={{ marginBottom: 2 }}>Reference tables</h3>
           <div className="muted small">Articles, pronouns, verb endings, irregular verbs</div>
         </Link>
+        <Link className="card card-link" to="/verbs">
+          <h3 style={{ marginBottom: 2 }}>Verb drills</h3>
+          <div className="muted small">Type all six persons: present, passato prossimo, imperfetto, future</div>
+        </Link>
       </div>
       {recommended && (
         <Link className="card card-link" to={`/grammar/${recommended.id}`} style={{ marginBottom: 28 }}>

@@ -16,6 +16,7 @@ import { Review } from './pages/Review'
 import { Settings } from './pages/Settings'
 import { SpeedRound } from './pages/SpeedRound'
 import { Today } from './pages/Today'
+import { VerbDrill } from './pages/VerbDrill'
 import { Words } from './pages/Words'
 import { WritingList, WritingPage } from './pages/Writing'
 import { MissingVoiceNotice } from './components/MissingVoiceNotice'
@@ -118,6 +119,7 @@ export default function App() {
             <Route path="/writing/:taskId" element={<WritingPage />} />
             <Route path="/progress" element={<Progress />} />
             <Route path="/reference" element={<Reference />} />
+            <Route path="/verbs" element={<VerbDrill />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="*" element={<Today />} />
