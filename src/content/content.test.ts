@@ -112,7 +112,7 @@ describe('words', () => {
   })
 
   it('give plurals an article that follows the rules (nouns that change gender, like uova, are listed)', () => {
-    const changesGender = new Set(['uovo'])
+    const changesGender = new Set(['uovo', 'braccio', 'dito', 'orecchio'])
     const bad = BUILT_IN_WORDS.filter((word) => word.plural && word.gender && !changesGender.has(word.id)).filter(
       (word) => word.pluralArticle !== expectedPluralArticle(word.plural!, word.gender!),
     )
