@@ -61,5 +61,3 @@ export const articoliDeterminativi: GrammarTopic = {
     },
   ],
 }
-
-export const A1_TOPICS: GrammarTopic[] = [articoliDeterminativi]
