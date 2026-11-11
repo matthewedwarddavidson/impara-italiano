@@ -56,6 +56,31 @@ export function whenVoicesReady(): Promise<SpeechSynthesisVoice[]> {
   })
 }
 
+// Missing voice: Italian spoken by an English voice is worse than silence, so speech stops and the app says why.
+
+let italianVoiceMissing = false
+const missingVoiceListeners = new Set<() => void>()
+
+function setItalianVoiceMissing(missing: boolean) {
+  if (italianVoiceMissing === missing) return
+  italianVoiceMissing = missing
+  missingVoiceListeners.forEach((listener) => listener())
+}
+
+/** True after the app tried to speak and found no Italian voice on this device. */
+export function italianVoiceIsMissing(): boolean {
+  return italianVoiceMissing
+}
+
+export function onItalianVoiceMissingChange(listener: () => void): () => void {
+  missingVoiceListeners.add(listener)
+  return () => missingVoiceListeners.delete(listener)
+}
+
+export function dismissMissingVoice() {
+  setItalianVoiceMissing(false)
+}
+
 // Recordings
 
 let manifest: Promise<Set<string>> | undefined
@@ -115,13 +140,13 @@ function playRecording(url: string, rate: number): Promise<void> {
   })
 }
 
-function speakWithBrowser(text: string, rate: number, browserVoice?: SpeechSynthesisVoice): Promise<void> {
+function speakWithBrowser(text: string, rate: number, browserVoice: SpeechSynthesisVoice): Promise<void> {
   return new Promise((resolve) => {
     if (!('speechSynthesis' in window)) return resolve()
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'it-IT'
     utterance.rate = rate
-    if (browserVoice) utterance.voice = browserVoice
+    utterance.voice = browserVoice
     currentAudio = undefined
     utterance.onstart = () => {
       browserLine = { startedAt: Date.now(), estimatedMs: (text.length / BROWSER_CHARS_PER_SECOND / rate) * 1000 }
@@ -153,7 +178,13 @@ async function playLine(text: string, voice: RecordedVoice, slow: boolean, token
   const url = await recordingUrl(voice, clean)
   if (token !== playback) return
   if (url) return playRecording(url, rate)
-  return speakWithBrowser(clean, rate, browserVoiceFor(voice))
+  // Voices load late in some browsers; speaking before they arrive gets the default (often English) voice.
+  await whenVoicesReady()
+  if (token !== playback) return
+  const browserVoice = browserVoiceFor(voice)
+  if (!browserVoice) return setItalianVoiceMissing(true)
+  setItalianVoiceMissing(false)
+  return speakWithBrowser(clean, rate, browserVoice)
 }
 
 export interface SpeakOptions {

@@ -18,6 +18,7 @@ import { SpeedRound } from './pages/SpeedRound'
 import { Today } from './pages/Today'
 import { Words } from './pages/Words'
 import { WritingList, WritingPage } from './pages/Writing'
+import { MissingVoiceNotice } from './components/MissingVoiceNotice'
 
 const NAV: { to: string; label: string; icon: IconName }[] = [
   { to: '/', label: 'Today', icon: 'today' },
@@ -99,6 +100,7 @@ export default function App() {
       <div className="app">
         <Sidebar />
         <main className="main">
+          <MissingVoiceNotice />
           <Routes>
             <Route path="/" element={<Today />} />
             <Route path="/review" element={<Fresh page={Review} />} />

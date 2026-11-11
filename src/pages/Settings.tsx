@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { LEVELS, type Level } from '../content/types'
 import { updateSettings } from '../lib/actions'
+import { InstallItalianVoice } from '../components/MissingVoiceNotice'
 import { bestItalianVoices, hasNaturalBrowserVoice, speak, whenVoicesReady } from '../lib/speech'
 import { downloadBackup } from '../lib/backup'
 import { DEFAULT_RETENTION } from '../lib/srs'
@@ -146,12 +147,13 @@ export function Settings() {
           <span>
             <strong>Natural recorded voices</strong>
             <span className="small muted" style={{ display: 'block' }}>
-              Built-in words, examples, texts and dialogues come with recordings made by a neural voice. Recommended.
+              Built-in words, examples, texts and dialogues will come with recordings made by a neural voice. Until
+              they are added, the app uses this device's Italian voice below.
             </span>
           </span>
         </label>
         <div className="small muted">
-          Your own words use a browser voice.{' '}
+          Anything not recorded uses a browser voice.{' '}
           {voices.length > 0 && !hasNaturalBrowserVoice() && (
             <>
               Yours sound robotic. For much better ones, open the app in <strong>Microsoft Edge</strong>, which has free
@@ -162,9 +164,13 @@ export function Settings() {
           )}
         </div>
         {voices.length === 0 ? (
-          <p className="muted small" style={{ margin: 0 }}>
-            This browser has no Italian voice. Try Microsoft Edge or Chrome.
-          </p>
+          <div className="stack">
+            <p className="small" style={{ margin: 0 }}>
+              <strong>This device has no Italian voice</strong>, so the app stays silent rather than reading Italian
+              with an English accent. To add one:
+            </p>
+            <InstallItalianVoice />
+          </div>
         ) : (
           <div className="row">
             <select
@@ -181,9 +187,6 @@ export function Settings() {
             </select>
             <button className="btn" onClick={() => speak('Oggi purtroppo non ho tempo, ma domani volentieri.')}>
               Test browser voice
-            </button>
-            <button className="btn" onClick={() => speak('Buongiorno! Come sta oggi?')}>
-              Test recorded voice
             </button>
           </div>
         )}
