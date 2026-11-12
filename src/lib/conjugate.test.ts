@@ -27,6 +27,17 @@ describe('conjugate', () => {
     expect(first(conjugate(verb('dormire', 'dormo, ho dormito'), 'presente'))[5]).toBe('dormono')
   })
 
+  it('conjugates compounds like their base verb', () => {
+    expect(first(conjugate(verb('ottenere', 'ottengo, ho ottenuto'), 'presente'))).toEqual([
+      'ottengo', 'ottieni', 'ottiene', 'otteniamo', 'ottenete', 'ottengono',
+    ])
+    expect(first(conjugate(verb('riuscire', 'riesco, sono riuscito'), 'presente'))[3]).toBe('riusciamo')
+    expect(first(conjugate(verb('tradurre', 'traduco, ho tradotto'), 'imperfetto'))[0]).toBe('traducevo')
+    expect(first(conjugate(verb('proporre', 'propongo, ho proposto'), 'futuro'))[0]).toBe('proporrò')
+    expect(first(conjugate(verb('raccogliere', 'raccolgo, ho raccolto'), 'presente'))[5]).toBe('raccolgono')
+    expect(first(conjugate(verb('spedire', 'spedisco, ho spedito'), 'presente'))[0]).toBe('spedisco')
+  })
+
   it('makes the passato prossimo with avere or essere, accepting both genders with essere', () => {
     expect(first(conjugate(verb('fare', 'faccio, ho fatto'), 'passato-prossimo'))[3]).toBe('abbiamo fatto')
     const andare = conjugate(verb('andare', 'vado, sono andato'), 'passato-prossimo')

@@ -40,10 +40,38 @@ const IRREGULAR_PRESENT: Record<string, SixForms> = {
   morire: ['muoio', 'muori', 'muore', 'moriamo', 'morite', 'muoiono'],
   rimanere: ['rimango', 'rimani', 'rimane', 'rimaniamo', 'rimanete', 'rimangono'],
   tenere: ['tengo', 'tieni', 'tiene', 'teniamo', 'tenete', 'tengono'],
+  scegliere: ['scelgo', 'scegli', 'sceglie', 'scegliamo', 'scegliete', 'scelgono'],
+  togliere: ['tolgo', 'togli', 'toglie', 'togliamo', 'togliete', 'tolgono'],
+  cogliere: ['colgo', 'cogli', 'coglie', 'cogliamo', 'cogliete', 'colgono'],
+  sedere: ['siedo', 'siedi', 'siede', 'sediamo', 'sedete', 'siedono'],
+  porre: ['pongo', 'poni', 'pone', 'poniamo', 'ponete', 'pongono'],
+  durre: ['duco', 'duci', 'duce', 'duciamo', 'ducete', 'ducono'],
+  trarre: ['traggo', 'trai', 'trae', 'traiamo', 'traete', 'traggono'],
+  parire: ['paio', 'pari', 'pare', 'pariamo', 'parite', 'paiono'],
+}
+
+/**
+ * Bases whose compounds conjugate the same way after the prefix: ottenere like tenere, proporre
+ * like porre, tradurre like "durre", riuscire like uscire (ri + esco), apparire like "parire".
+ * Bases such as dire and stare are left out because ordinary verbs end in them (spedire, costare).
+ */
+const COMPOUND_BASES = ['tenere', 'venire', 'uscire', 'cogliere', 'porre', 'durre', 'trarre', 'parire']
+
+/** Splits a compound verb into prefix and base: ottenere → ["ot", "tenere"]. */
+function splitCompound(infinitive: string): [string, string] | undefined {
+  const base = COMPOUND_BASES.find((candidate) => infinitive.endsWith(candidate) && infinitive !== candidate)
+  return base ? [infinitive.slice(0, -base.length), base] : undefined
 }
 
 /** Imperfetto stems that don't come from the infinitive (endings -vo, -vi… are added). */
-const IRREGULAR_IMPERFETTO_STEM: Record<string, string> = { fare: 'face', bere: 'beve', dire: 'dice' }
+const IRREGULAR_IMPERFETTO_STEM: Record<string, string> = {
+  fare: 'face',
+  bere: 'beve',
+  dire: 'dice',
+  porre: 'pone',
+  durre: 'duce',
+  trarre: 'trae',
+}
 const ESSERE_IMPERFETTO: SixForms = ['ero', 'eri', 'era', 'eravamo', 'eravate', 'erano']
 
 /** Future stems that don't come from the infinitive (endings -ò, -ai… are added). */
@@ -64,6 +92,9 @@ const IRREGULAR_FUTURE_STEM: Record<string, string> = {
   dare: 'dar',
   rimanere: 'rimarr',
   tenere: 'terr',
+  porre: 'porr',
+  durre: 'durr',
+  trarre: 'trarr',
 }
 
 const PRESENT_ENDINGS: Record<string, SixForms> = {
@@ -93,6 +124,8 @@ function joinAre(stem: string, ending: string): string {
 function present(infinitive: string, ioForm: string | undefined): SixForms {
   const irregular = IRREGULAR_PRESENT[infinitive]
   if (irregular) return irregular
+  const compound = splitCompound(infinitive)
+  if (compound) return IRREGULAR_PRESENT[compound[1]].map((form) => compound[0] + form) as SixForms
   const group = infinitive.slice(-3)
   const stem = infinitive.slice(0, -3)
   if (group === 'ire' && ioForm?.endsWith('isco')) return ISC_ENDINGS.map((ending) => stem + ending) as SixForms
@@ -104,7 +137,11 @@ function present(infinitive: string, ioForm: string | undefined): SixForms {
 
 function imperfetto(infinitive: string): SixForms {
   if (infinitive === 'essere') return ESSERE_IMPERFETTO
-  const stem = IRREGULAR_IMPERFETTO_STEM[infinitive] ?? infinitive.slice(0, -2)
+  const compound = splitCompound(infinitive)
+  const irregularStem = compound
+    ? IRREGULAR_IMPERFETTO_STEM[compound[1]] && compound[0] + IRREGULAR_IMPERFETTO_STEM[compound[1]]
+    : IRREGULAR_IMPERFETTO_STEM[infinitive]
+  const stem = irregularStem ?? infinitive.slice(0, -2)
   return IMPERFETTO_ENDINGS.map((ending) => stem + ending) as SixForms
 }
 
@@ -112,6 +149,8 @@ function imperfetto(infinitive: string): SixForms {
 function futureStem(infinitive: string): string {
   const irregular = IRREGULAR_FUTURE_STEM[infinitive]
   if (irregular) return irregular
+  const compound = splitCompound(infinitive)
+  if (compound && IRREGULAR_FUTURE_STEM[compound[1]]) return compound[0] + IRREGULAR_FUTURE_STEM[compound[1]]
   if (!infinitive.endsWith('are')) return infinitive.slice(0, -1)
   const stem = infinitive.slice(0, -3)
   if (/[cg]i$/.test(stem)) return `${stem.slice(0, -1)}er`
