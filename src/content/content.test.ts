@@ -6,6 +6,7 @@ import type { Question } from './types'
 import { WRITING_TASKS } from './writing'
 import { BUILT_IN_WORDS } from './words'
 import { expectedArticle, expectedPluralArticle } from '../lib/articles'
+import ipaById from './ipa.json'
 
 function checkQuestions(questions: Question[]): string[] {
   const problems: string[] = []
@@ -117,6 +118,11 @@ describe('words', () => {
       (word) => word.pluralArticle !== expectedPluralArticle(word.plural!, word.gender!),
     )
     expect(bad.map((word) => word.id)).toEqual([])
+  })
+
+  it('only have IPA for words that exist (rebuild with scripts/build-ipa.ts after renaming)', () => {
+    const ids = new Set(BUILT_IN_WORDS.map((word) => word.id))
+    expect(Object.keys(ipaById).filter((id) => !ids.has(id))).toEqual([])
   })
 
   it('mark the target word in every example', () => {
