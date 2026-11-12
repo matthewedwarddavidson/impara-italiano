@@ -11,6 +11,9 @@ import {
 } from './a1-verbs'
 import { ciENe, comparativi, piacere, preposizioniArticolate, pronomiDiretti, pronomiIndiretti, verbiRiflessivi } from './a2-forms'
 import { futuroSemplice, imperfetto, passatoProssimo, stareGerundio } from './a2-tenses'
+import { imperativo } from './a2-imperativo'
+import { condizionale, congiuntivoPassato, congiuntivoPresente, periodoIpotetico } from './b1-moods'
+import { passatoRemoto, pronomiCombinati, pronomiRelativi, siImpersonale, trapassatoProssimo } from './b1-forms'
 
 /** Topics in teaching order within each level. */
 export const GRAMMAR_TOPICS: GrammarTopic[] = [
@@ -37,6 +40,16 @@ export const GRAMMAR_TOPICS: GrammarTopic[] = [
   comparativi,
   futuroSemplice,
   ciENe,
+  imperativo,
+  trapassatoProssimo,
+  condizionale,
+  pronomiCombinati,
+  pronomiRelativi,
+  congiuntivoPresente,
+  congiuntivoPassato,
+  periodoIpotetico,
+  siImpersonale,
+  passatoRemoto,
 ]
 
 export function topicById(id: string): GrammarTopic | undefined {
