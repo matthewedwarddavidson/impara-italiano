@@ -1,0 +1,105 @@
+import type { WritingTask } from '../types'
+
+/** A1: short messages of 30–40 words, as in CILS A1. */
+export const TASKS_A1: WritingTask[] = [
+  {
+    id: 'a1-presentarsi',
+    title: 'Presentati',
+    level: 'A1',
+    theme: 'daily-life',
+    format: 'informal-email',
+    instructions: 'Scrivi una breve email a un nuovo amico italiano. Presentati.',
+    points: ['Come ti chiami e quanti anni hai', 'Di dove sei e dove abiti', 'Che lavoro fai', 'Cosa ti piace fare nel tempo libero'],
+    minWords: 40,
+    phrases: [
+      { it: 'Mi chiamo …', en: 'My name is …' },
+      { it: 'Ho … anni.', en: "I'm … years old." },
+      { it: 'Sono di … ma abito a …', en: "I'm from … but I live in …" },
+      { it: 'Faccio l’insegnante / il medico.', en: "I'm a teacher / a doctor." },
+      { it: 'Nel tempo libero mi piace …', en: 'In my free time I like …' },
+      { it: 'A presto!', en: 'Speak soon!' },
+    ],
+    model:
+      'Ciao Luca! Mi chiamo Emma e ho trentadue anni. Sono inglese e abito vicino a Cambridge con mio marito e nostra figlia. Faccio l’infermiera in un ospedale. Nel tempo libero mi piace cucinare, leggere e camminare in campagna. Studio l’italiano perché amo l’Italia. E tu? A presto, Emma',
+  },
+  {
+    id: 'a1-invito',
+    title: 'Una festa di compleanno',
+    level: 'A1',
+    theme: 'relationships',
+    format: 'informal-email',
+    instructions: 'La tua amica Sara ti invita alla sua festa di compleanno sabato sera. Rispondi con un breve messaggio (circa 30 parole).',
+    points: ['Ringrazia Sara.', 'Di’ che vieni volentieri.', 'Chiedi a che ora comincia la festa.', 'Chiedi se devi portare qualcosa.'],
+    minWords: 30,
+    phrases: [
+      { it: 'Cara Sara, …', en: 'Dear Sara, …' },
+      { it: 'Grazie per l’invito!', en: 'Thanks for the invitation!' },
+      { it: 'Vengo volentieri.', en: "I'd love to come." },
+      { it: 'A che ora comincia la festa?', en: 'What time does the party start?' },
+      { it: 'Devo portare qualcosa?', en: 'Shall I bring anything?' },
+      { it: 'A sabato!', en: 'See you on Saturday!' },
+    ],
+    model:
+      'Cara Sara,\n\ngrazie per l’invito! Vengo volentieri alla tua festa. A che ora comincia? Devo portare qualcosa? Posso fare una torta al cioccolato o comprare qualcosa da bere.\n\nA sabato!\nEmma',
+  },
+  {
+    id: 'a1-cartolina',
+    title: 'Una cartolina dalle vacanze',
+    level: 'A1',
+    theme: 'travel',
+    format: 'informal-email',
+    instructions: 'Sei in vacanza in Italia. Scrivi una cartolina a un’amica (circa 35 parole).',
+    points: ['Dove sei e con chi', 'Che tempo fa', 'Cosa fai durante il giorno', 'Cosa ti piace di più'],
+    minWords: 35,
+    phrases: [
+      { it: 'Cara Anna, …', en: 'Dear Anna, …' },
+      { it: 'Sono a … con …', en: "I'm in … with …" },
+      { it: 'Fa bel tempo. / Fa caldo.', en: "The weather's nice. / It's hot." },
+      { it: 'La mattina andiamo al mare.', en: 'In the mornings we go to the beach.' },
+      { it: 'Mi piace molto …', en: 'I really like …' },
+      { it: 'Un abbraccio', en: 'Love (literally "a hug")' },
+    ],
+    model:
+      'Cara Anna,\n\nsono a Napoli con la mia famiglia. Fa bel tempo e fa molto caldo. La mattina andiamo al mare e il pomeriggio visitiamo la città. La sera mangiamo la pizza: è buonissima! Mi piace molto il centro storico.\n\nUn abbraccio,\nEmma',
+  },
+  {
+    id: 'a1-casa-nuova',
+    title: 'La mia nuova casa',
+    level: 'A1',
+    theme: 'home',
+    format: 'informal-email',
+    instructions: 'Hai una nuova casa. Scrivi un’email a un amico italiano e descrivi la casa (circa 40 parole).',
+    points: ['Dov’è la casa', 'Quali stanze ci sono', 'Qual è la tua stanza preferita e perché', 'Invita l’amico a venire'],
+    minWords: 40,
+    phrases: [
+      { it: 'La casa è in centro / in periferia.', en: 'The house is in the centre / on the outskirts.' },
+      { it: 'C’è … / Ci sono …', en: 'There is … / There are …' },
+      { it: 'Al primo piano ci sono …', en: 'On the first floor there are …' },
+      { it: 'La mia stanza preferita è … perché …', en: 'My favourite room is … because …' },
+      { it: 'Vieni a trovarmi!', en: 'Come and see me!' },
+      { it: 'Ciao, a presto!', en: 'Bye, speak soon!' },
+    ],
+    model:
+      'Ciao Marco,\n\nabbiamo una nuova casa! È in un piccolo paese vicino a Cambridge. Al piano terra ci sono la cucina, il soggiorno e un bagno. Al primo piano ci sono tre camere da letto e un altro bagno. La mia stanza preferita è la cucina perché è grande e luminosa. Vieni a trovarmi!\n\nCiao, a presto!\nEmma',
+  },
+  {
+    id: 'a1-albergo',
+    title: 'Prenotare una camera',
+    level: 'A1',
+    theme: 'travel',
+    format: 'formal-email',
+    instructions: 'Vuoi prenotare una camera all’Hotel Bellavista di Verona. Scrivi una breve email all’albergo (circa 35 parole).',
+    points: ['Saluta in modo formale.', 'Di’ quando arrivi e quante notti resti.', 'Di’ che camera vuoi.', 'Chiedi il prezzo.'],
+    minWords: 35,
+    phrases: [
+      { it: 'Spettabile Hotel Bellavista,', en: 'Dear Hotel Bellavista (formal, to a business)' },
+      { it: 'Vorrei prenotare una camera doppia / singola.', en: "I'd like to book a double / single room." },
+      { it: 'dal 3 al 6 maggio', en: 'from 3 to 6 May' },
+      { it: 'per tre notti', en: 'for three nights' },
+      { it: 'Quanto costa la camera a notte?', en: 'How much is the room a night?' },
+      { it: 'Cordiali saluti', en: 'Kind regards' },
+    ],
+    model:
+      'Spettabile Hotel Bellavista,\n\nvorrei prenotare una camera doppia con bagno dal 3 al 6 maggio, per tre notti. Arriviamo io e mio marito. Quanto costa la camera a notte? La colazione è inclusa?\n\nGrazie e cordiali saluti,\nEmma Clarke',
+  },
+]

@@ -4,6 +4,7 @@ import { LISTENING_TEXTS } from './listening'
 import { READING_TEXTS } from './reading'
 import type { Question } from './types'
 import { WRITING_TASKS } from './writing'
+import { countWords } from '../lib/writing'
 import { BUILT_IN_WORDS } from './words'
 import { expectedArticle, expectedPluralArticle } from '../lib/articles'
 import ipaById from './ipa.json'
@@ -52,6 +53,13 @@ describe('writing tasks', () => {
   it('have unique ids', () => {
     const ids = WRITING_TASKS.map((task) => task.id)
     expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it('have model answers at least as long as they ask for', () => {
+    const short = WRITING_TASKS.filter((task) => countWords(task.model) < task.minWords).map(
+      (task) => `${task.id}: ${countWords(task.model)} of ${task.minWords}`,
+    )
+    expect(short).toEqual([])
   })
 })
 

@@ -15,6 +15,7 @@ import {
 } from '../lib/actions'
 import { useNow, useTimeOnPage } from '../lib/hooks'
 import { MISTAKE_CATEGORIES, useAppState, type WritingAttempt } from '../lib/store'
+import { connectorsUsed, countWords } from '../lib/writing'
 
 const FORMAT_LABELS: Record<WritingTask['format'], string> = {
   'informal-email': 'Informal email',
@@ -25,47 +26,6 @@ const FORMAT_LABELS: Record<WritingTask['format'], string> = {
   summary: 'Summary',
 }
 
-const CONNECTORS = [
-  'perché',
-  'quando',
-  'se',
-  'ma',
-  'però',
-  'quindi',
-  'allora',
-  'anche',
-  'invece',
-  'mentre',
-  'poi',
-  'dopo',
-  'prima',
-  'infatti',
-  'comunque',
-  'inoltre',
-  'siccome',
-  'dato che',
-  'anche se',
-  'benché',
-  'sebbene',
-  'affinché',
-  'purché',
-  'nonostante',
-  'tuttavia',
-  'dunque',
-  'cioè',
-  'per esempio',
-  'da un lato',
-  "d'altra parte",
-]
-
-function countWords(text: string): number {
-  return text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word)).length
-}
-
-function connectorsUsed(text: string): string[] {
-  const words = new Set(text.toLowerCase().match(/\p{L}+/gu) ?? [])
-  return CONNECTORS.filter((connector) => words.has(connector))
-}
 
 export function WritingList() {
   const state = useAppState()
