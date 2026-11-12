@@ -39,9 +39,9 @@ PIPER_FALLBACK = {True: 'it_IT-paola-medium', False: 'it_IT-riccardo-x_low'}
 
 # One attempt per temperature; varying it makes a repeat of the same garble less likely.
 TEMPERATURES = (0.8, 0.6, 0.9, 0.7, 0.5)
-# GPU memory builds up over a long run until the Mac starts swapping, so each run records
-# at most this many clips and exits with code 3; scripts/record_all.sh restarts it.
-CLIPS_PER_RUN = 25
+# Memory grows by about 0.3 GB a clip until the process exits, so each run records at most
+# this many clips and exits with code 3; scripts/record_all.sh restarts it. 10 keeps a run under about 11 GB.
+CLIPS_PER_RUN = 10
 PAUSE_SECONDS = 0.25
 # Abbreviations that end in a full stop without ending the sentence.
 ABBREVIATIONS = ('Sig.', 'Sig.ra', 'Dott.', 'Dott.ssa', 'Prof.', 'Prof.ssa', 'ecc.', 'es.', 'n.', 'p.', 'pag.', 'tel.', 'ca.')

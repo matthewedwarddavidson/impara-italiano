@@ -5,9 +5,9 @@
 export HF_HUB_OFFLINE=1
 export OMP_NUM_THREADS=4
 export TQDM_DISABLE=1
-# Fractions of the GPU's recommended working set. 0.4 kept the process under about 10 GB on a 24 GB Mac.
-export PYTORCH_MPS_HIGH_WATERMARK_RATIO="${PYTORCH_MPS_HIGH_WATERMARK_RATIO:-0.4}"
-export PYTORCH_MPS_LOW_WATERMARK_RATIO="${PYTORCH_MPS_LOW_WATERMARK_RATIO:-0.3}"
+# Fractions of the GPU's recommended working set; lower values use less memory but may fail with out-of-memory errors.
+export PYTORCH_MPS_HIGH_WATERMARK_RATIO="${PYTORCH_MPS_HIGH_WATERMARK_RATIO:-0.25}"
+export PYTORCH_MPS_LOW_WATERMARK_RATIO="${PYTORCH_MPS_LOW_WATERMARK_RATIO:-0.2}"
 while true; do
   taskpolicy -c utility nice -n 15 .venv-tts/bin/python scripts/generate_speech.py
   status=$?

@@ -48,4 +48,4 @@ npx tsx scripts/collect-speech.ts > audio-build/requests.json
 scripts/record_all.sh
 ```
 
-Only missing sentences are recorded. Current content is about 3,500 clips, 8 to 12 hours, so run it overnight and commit `public/audio` when it finishes. It runs at low priority with GPU memory capped (about 10 GB), so the Mac stays usable.
+Only missing sentences are recorded. Current content is about 3,500 clips; it takes about a day, at low priority with memory held under about 11 GB so the Mac stays usable. Commit `public/audio` when it finishes.
