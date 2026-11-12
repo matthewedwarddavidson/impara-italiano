@@ -396,6 +396,9 @@ function LevelReadiness({ state }: { state: AppState }) {
           This measures the app's material, not your exam result. Your course and the official model tests remain the
           real benchmark.
         </p>
+        <Link className="btn small" to="/checkpoints" style={{ alignSelf: 'flex-start' }}>
+          Level checkpoints: timed reading and listening papers
+        </Link>
       </div>
     </>
   )

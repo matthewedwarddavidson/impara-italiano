@@ -58,7 +58,7 @@ export interface ReadingSpeed {
 export interface ExamResult {
   id: string
   setId: string
-  module: 'lesen' | 'hoeren'
+  module: 'reading' | 'listening'
   at: string
   score: number
   /** The score you expected before starting, to calibrate your sense of readiness. */

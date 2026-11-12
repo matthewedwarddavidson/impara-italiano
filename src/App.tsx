@@ -5,6 +5,7 @@ import { Icon, type IconName } from './components/Icon'
 import { dueCards } from './lib/cards'
 import { useNow } from './lib/hooks'
 import { useAppState } from './lib/store'
+import { CheckpointList, CheckpointPaper } from './pages/Checkpoint'
 import { GrammarLesson, GrammarList } from './pages/Grammar'
 import { Learn } from './pages/Learn'
 import { Dictation, ListeningList, ListeningPage } from './pages/Listening'
@@ -54,6 +55,12 @@ function Sidebar() {
           {item.to === '/' && due > 0 && <span className="nav-badge">{due}</span>}
         </NavLink>
       ))}
+      <NavLink to="/checkpoints" className="nav-link desktop-only">
+        <span className="row" style={{ gap: 10 }}>
+          <Icon name="check" />
+          Checkpoints
+        </span>
+      </NavLink>
       <NavLink to="/reference" className="nav-link desktop-only">
         <span className="row" style={{ gap: 10 }}>
           <Icon name="words" />
@@ -118,6 +125,8 @@ export default function App() {
             <Route path="/writing" element={<WritingList />} />
             <Route path="/writing/:taskId" element={<WritingPage />} />
             <Route path="/progress" element={<Progress />} />
+            <Route path="/checkpoints" element={<CheckpointList />} />
+            <Route path="/checkpoints/:checkpointId/:module" element={<CheckpointPaper />} />
             <Route path="/reference" element={<Reference />} />
             <Route path="/verbs" element={<VerbDrill />} />
             <Route path="/settings" element={<Settings />} />

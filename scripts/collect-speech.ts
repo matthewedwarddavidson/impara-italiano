@@ -7,6 +7,7 @@
 import { createHash } from 'node:crypto'
 import coreVerbs from '../src/content/coreVerbs'
 import { GRAMMAR_TOPICS } from '../src/content/grammar'
+import { CHECKPOINTS } from '../src/content/checkpoints'
 import { LISTENING_TEXTS, voiceForSpeaker } from '../src/content/listening'
 import { displayItalian } from '../src/content/parseWords'
 import { READING_TEXTS } from '../src/content/reading'
@@ -51,6 +52,12 @@ for (const text of READING_TEXTS) {
 
 for (const text of LISTENING_TEXTS) {
   for (const line of text.lines) add(line.text, voiceForSpeaker(text, line.speaker))
+}
+
+for (const checkpoint of CHECKPOINTS) {
+  for (const part of checkpoint.listening.parts) {
+    for (const line of part.script.lines) add(line.text, part.script.voices?.[line.speaker])
+  }
 }
 
 // The Settings voice test.
