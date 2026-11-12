@@ -32,3 +32,14 @@ Prose readings make better models than verse: verse is read slowly and with dram
 | Pier | Il Paradiso (Dante), verse | [mp3](https://www.archive.org/download/il_paradiso_2107_librivox/divinacommediailparadiso_30_alighieri_64kb.mp3) |
 
 Once you have chosen, note a stretch of 10 to 15 seconds of clean, even reading in each chapter (no music, no "LibriVox recording" intro), then cut it with `scripts/cut_voice.py` (see README, "Recorded voices").
+
+## Chosen (2026-11-12)
+
+| App voice | Reader | Chapter |
+|---|---|---|
+| giulia | Enrica Giampieretti | Canne al vento, ch. 2 |
+| chiara | Claudia Caldi | Ricordi di Londra, ch. 6 |
+| marco | Paolo Fedi | Favole di La Fontaine, book 1, fable 14 |
+| luca | Sergio Baldelli | Myricae, poem 28 |
+
+Each reference is the 12 s with the least silence between 40 s and 160 s of the linked chapter, picked automatically and checked by ear through Chatterbox clones.
