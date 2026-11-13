@@ -2,6 +2,8 @@
 # Records every missing clip, restarting the generator after each batch to release GPU memory.
 # Runs at low priority with GPU memory capped, so the Mac stays usable during the run.
 # Usage: scripts/record_all.sh   (from the repository root)
+# Keeps the Mac from idle sleep while this script runs; overnight it otherwise sleeps and records a few clips an hour.
+caffeinate -i -w $$ &
 export HF_HUB_OFFLINE=1
 export OMP_NUM_THREADS=4
 export TQDM_DISABLE=1
